@@ -16,8 +16,13 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.rgb(red: 61, green: 91, blue: 151, alpha: 1)
         
-        view.addSubview(formView)
+        view.addSubview(backgroundImage)
+        backgroundImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backgroundImage.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        backgroundImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
+        view.addSubview(formView)
         formView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
@@ -55,6 +60,18 @@ class LoginViewController: UIViewController {
         emailSeparator.leadingAnchor.constraint(equalTo: formView.leadingAnchor).isActive = true
         emailSeparator.trailingAnchor.constraint(equalTo: formView.trailingAnchor).isActive = true
         
+        view.addSubview(registerButton)
+        registerButton.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16).isActive = true
+        registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        registerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        view.addSubview(logoImage)
+        logoImage.bottomAnchor.constraint(equalTo: formView.topAnchor, constant: -16).isActive = true
+        logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        logoImage.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        logoImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,6 +82,12 @@ class LoginViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    let backgroundImage: UIImageView = {
+        let bgImage = UIImageView(image: UIImage(named: "login_bg"))
+        bgImage.translatesAutoresizingMaskIntoConstraints = false
+        return bgImage
+    }()
     
     let formView: UIView = {
         let formView = UIView()
@@ -116,6 +139,28 @@ class LoginViewController: UIViewController {
         separator.translatesAutoresizingMaskIntoConstraints = false
         
         return separator
+    }()
+    
+    let registerButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Register", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.backgroundColor = UIColor.rgb(red: 255, green: 255, blue: 255, alpha: 0.85)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.cornerRadius = 5
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
+    let logoImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "logo")
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
     }()
     
 }
