@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		21C7CD2CBBDBB44AC7DC435F /* Pods_FirebaseChatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00FB0C32279D9D0A89C89B7D /* Pods_FirebaseChatUITests.framework */; };
+		2618B0A41DA6599B0013AB76 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618B0A31DA6599B0013AB76 /* MainNavigationController.swift */; };
+		2618B0A61DA65F9A0013AB76 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618B0A51DA65F9A0013AB76 /* LoginViewController.swift */; };
 		2694294C1DA59BA400AF6C8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694294B1DA59BA400AF6C8F /* AppDelegate.swift */; };
 		2694294E1DA59BA400AF6C8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694294D1DA59BA400AF6C8F /* ViewController.swift */; };
 		269429511DA59BA400AF6C8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2694294F1DA59BA400AF6C8F /* Main.storyboard */; };
@@ -40,6 +42,8 @@
 /* Begin PBXFileReference section */
 		00FB0C32279D9D0A89C89B7D /* Pods_FirebaseChatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseChatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03D56A04B639126A6248F980 /* Pods_FirebaseChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2618B0A31DA6599B0013AB76 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
+		2618B0A51DA65F9A0013AB76 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		269429481DA59BA400AF6C8F /* FirebaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2694294B1DA59BA400AF6C8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2694294D1DA59BA400AF6C8F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +95,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2618B09F1DA659500013AB76 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2618B0A31DA6599B0013AB76 /* MainNavigationController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		2618B0A01DA659670013AB76 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2694294D1DA59BA400AF6C8F /* ViewController.swift */,
+				2618B0A51DA65F9A0013AB76 /* LoginViewController.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		2618B0A11DA6596C0013AB76 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		2618B0A21DA659720013AB76 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		2694293F1DA59BA400AF6C8F = {
 			isa = PBXGroup;
 			children = (
@@ -116,8 +151,11 @@
 		2694294A1DA59BA400AF6C8F /* FirebaseChat */ = {
 			isa = PBXGroup;
 			children = (
+				2618B0A21DA659720013AB76 /* Helpers */,
+				2618B0A11DA6596C0013AB76 /* Models */,
+				2618B0A01DA659670013AB76 /* Views */,
+				2618B09F1DA659500013AB76 /* Controllers */,
 				2694294B1DA59BA400AF6C8F /* AppDelegate.swift */,
-				2694294D1DA59BA400AF6C8F /* ViewController.swift */,
 				2694294F1DA59BA400AF6C8F /* Main.storyboard */,
 				269429521DA59BA400AF6C8F /* Assets.xcassets */,
 				269429541DA59BA400AF6C8F /* LaunchScreen.storyboard */,
@@ -437,6 +475,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2618B0A61DA65F9A0013AB76 /* LoginViewController.swift in Sources */,
+				2618B0A41DA6599B0013AB76 /* MainNavigationController.swift in Sources */,
 				2694294E1DA59BA400AF6C8F /* ViewController.swift in Sources */,
 				2694294C1DA59BA400AF6C8F /* AppDelegate.swift in Sources */,
 			);
