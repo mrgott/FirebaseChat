@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UITableViewController {
 
@@ -16,6 +17,8 @@ class ViewController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleLogout))
         
+
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,10 +27,16 @@ class ViewController: UITableViewController {
     }
 
     func handleLogout(){
+        
+        do {
+            try FIRAuth.auth()?.signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+        
         let loginController = LoginViewController()
         present(loginController, animated: true, completion: nil)
     }
-    
 
 }
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainNavigationController: UINavigationController {
 
@@ -14,18 +15,28 @@ class MainNavigationController: UINavigationController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        let viewControllersList = [ViewController()]
-        //setViewControllers(viewControllersList, animated: true)
-        viewControllers = viewControllersList
+        print("main controller")
         view.backgroundColor = .white
+        // setViewControllers(viewControllersList, animated: true)
+        if FIRAuth.auth()?.currentUser == nil {
+            perform(#selector(handleLogout), with: nil, afterDelay: 0.1)
+        }
+        
+        let homeController = ViewController()
+        viewControllers = [homeController]
         
     }
-
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func handleLogout(){
+        let loginController = LoginViewController()
+        present(loginController, animated: true) { 
+            //maybe someday
+        }
     }
 
 }

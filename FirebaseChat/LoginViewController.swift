@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
 
@@ -23,7 +24,8 @@ class LoginViewController: UIViewController {
         backgroundImage.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         view.addSubview(formView)
-        formView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        formViewHeightAnchor = formView.heightAnchor.constraint(equalToConstant: 150)
+        formViewHeightAnchor?.isActive = true
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         formView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -33,7 +35,8 @@ class LoginViewController: UIViewController {
         formView.addSubview(emailForm)
         formView.addSubview(passwordForm)
         
-        nameForm.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        nameFieldHeightAnchor = nameForm.heightAnchor.constraint(equalToConstant: 50)
+        nameFieldHeightAnchor?.isActive = true
         nameForm.topAnchor.constraint(equalTo: formView.topAnchor).isActive = true
         nameForm.leadingAnchor.constraint(equalTo: formView.leadingAnchor, constant: 16).isActive = true
         nameForm.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: -16).isActive = true
@@ -66,14 +69,23 @@ class LoginViewController: UIViewController {
         registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         registerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
+        view.addSubview(loginRegisterSegment)
+        loginRegisterSegment.bottomAnchor.constraint(equalTo: formView.topAnchor, constant: -16).isActive = true
+        loginRegisterSegment.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loginRegisterSegment.widthAnchor.constraint(equalTo: formView.widthAnchor).isActive = true
+        loginRegisterSegment.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         view.addSubview(logoImage)
-        logoImage.bottomAnchor.constraint(equalTo: formView.topAnchor, constant: -16).isActive = true
+        logoImage.bottomAnchor.constraint(equalTo: loginRegisterSegment.topAnchor, constant: -16).isActive = true
         logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         logoImage.widthAnchor.constraint(equalToConstant: 150).isActive = true
         logoImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
     }
 
+    var formViewHeightAnchor: NSLayoutConstraint?
+    var nameFieldHeightAnchor: NSLayoutConstraint?
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -112,6 +124,7 @@ class LoginViewController: UIViewController {
         emailForm.placeholder = "Email"
         emailForm.keyboardType = .emailAddress
         emailForm.translatesAutoresizingMaskIntoConstraints = false
+        emailForm.autocapitalizationType = .none
         
         return emailForm
     }()
@@ -141,7 +154,7 @@ class LoginViewController: UIViewController {
         return separator
     }()
     
-    let registerButton: UIButton = {
+    lazy var registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
         button.setTitleColor(.gray, for: .normal)
@@ -150,6 +163,7 @@ class LoginViewController: UIViewController {
         button.layer.cornerRadius = 5
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleLoginRegister), for: .touchUpInside)
         
         return button
     }()
@@ -162,5 +176,81 @@ class LoginViewController: UIViewController {
         
         return imageView
     }()
+    
+    lazy var loginRegisterSegment: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Login", "Register"])
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.tintColor = .white
+        segment.selectedSegmentIndex = 1
+        segment.addTarget(self, action: #selector(handleLoginRegisterSegment), for: .valueChanged)
+        
+        return segment
+    }()
+    
+    func handleLoginRegister(){
+        
+        if loginRegisterSegment.selectedSegmentIndex == 0 {
+            handleLogin()
+        } else {
+            handleRegister()
+        }
+        
+    }
+    
+    func handleLogin(){
+        //Check if email and password have been set
+        guard let email = emailForm.text, let password = passwordForm.text else { return }
+        
+        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+            if error != nil {
+                print(error)
+            }
+            // Show ViewController
+            self.dismiss(animated: true, completion: nil)
+            
+        })
+    }
+    
+    func handleRegister() {
+        //Check if email and password and name have been set
+        guard let email = emailForm.text, let password = passwordForm.text, let name = nameForm.text else { return }
+        
+        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
+            
+            if error != nil {
+                print(error)
+                print("There has been an error while registering a user")
+                return
+            }
+            
+            guard let userId = user?.uid else { return }
+            
+            let rootRef = FIRDatabase.database().reference(fromURL: "https://fir-chat-b00c1.firebaseio.com/")
+            let usersDBRef = rootRef.child("users").child(userId)
+            let values = ["name": name, "email": email]
+            usersDBRef.updateChildValues(values, withCompletionBlock: { (error, referrence) in
+                
+                if error != nil {
+                    print(error)
+                    return
+                }
+                
+                self.dismiss(animated: true, completion: nil)
+            })
+            
+        })
+        
+    }
+    
+    func handleLoginRegisterSegment(){
+        
+        let title = loginRegisterSegment.titleForSegment(at: loginRegisterSegment.selectedSegmentIndex)
+        registerButton.setTitle(title, for: .normal)
+        
+        formViewHeightAnchor?.constant = loginRegisterSegment.selectedSegmentIndex == 0 ? 100 : 150
+        nameFieldHeightAnchor?.constant = loginRegisterSegment.selectedSegmentIndex == 0 ? 0 : 50
+        nameForm.placeholder = loginRegisterSegment.selectedSegmentIndex == 0 ? "" : "Name"
+        
+    }
     
 }
