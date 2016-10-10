@@ -15,14 +15,13 @@ class MainNavigationController: UINavigationController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        print("main controller")
         view.backgroundColor = .white
         // setViewControllers(viewControllersList, animated: true)
         if FIRAuth.auth()?.currentUser == nil {
             perform(#selector(handleLogout), with: nil, afterDelay: 0.1)
         }
         
-        let homeController = ViewController()
+        let homeController = HomeController()
         viewControllers = [homeController]
         
     }
